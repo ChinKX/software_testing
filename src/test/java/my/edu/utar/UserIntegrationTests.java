@@ -36,7 +36,7 @@ public class UserIntegrationTests {
 		user.setAllBooking(new ArrayList<Booking>(Arrays.asList(allBookings)));
 		
 		WaitingList waitingList = new WaitingList();
-		Room allRooms = new Room(0, 0, 0);
+		Room allRooms = new Room();
 		
 		user.bookRoom(waitingList, allRooms, newBooking, numOfRoomsBooked);
 		
@@ -63,7 +63,7 @@ public class UserIntegrationTests {
 		user.setAllBooking(new ArrayList<Booking>(Arrays.asList(allBookings)));
 		
 		WaitingList waitingList = new WaitingList();
-		Room allRooms = new Room(0, 0, 0);
+		Room allRooms = new Room();
 		
 		user.cancelBooking(waitingList, allRooms, targetBooking);
 		

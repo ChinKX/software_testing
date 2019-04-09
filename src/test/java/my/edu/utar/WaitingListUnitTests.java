@@ -21,7 +21,7 @@ public class WaitingListUnitTests {
 	User u3 = new User("cat", "member", true);
 	
 	@Before
-	private void beforeClass() {
+	public void beforeClass() {
 		wl = new WaitingList();
 	}
 	

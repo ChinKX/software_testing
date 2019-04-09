@@ -10,6 +10,7 @@ import org.junit.runners.Suite.SuiteClasses;
 		UserUnitTests.class,
 		WaitingListUnitTests.class		
 })
+
 public class UnitTestsSuite {
 
 }

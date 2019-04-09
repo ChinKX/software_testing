@@ -6,12 +6,6 @@ public class Room {
 	private static int deluxe;
 	private static int standard;
 	
-	public Room(int vip, int deluxe, int standard) {
-		this.vip = vip;
-		this.deluxe = deluxe;
-		this.standard = standard;
-	}
-	
 	// instance method
 	// check the availability of the selected room type
 	public boolean checkRoom(String room_type, int requiredRoom)	{
