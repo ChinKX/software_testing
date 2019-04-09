@@ -1,5 +1,4 @@
 package my.edu.utar;
-
 public class Room {
 	// instance variable
 	// number of rooms available
@@ -7,29 +6,35 @@ public class Room {
 	private static int deluxe;
 	private static int standard;
 	
+	public Room(int vip, int deluxe, int standard) {
+		this.vip = vip;
+		this.deluxe = deluxe;
+		this.standard = standard;
+	}
+	
 	// instance method
 	// check the availability of the selected room type
-	public boolean checkRoom(String room_type)	{
-		boolean available = false;
+	public boolean checkRoom(String room_type, int requiredRoom)	{
+		boolean booked = false;
 		
 		// check room type
 		switch(room_type)
 		{
 			case "vip":
-				if(vip > 0)
-					available = true;
+				if(vip > requiredRoom)
+					booked = true;
 				break;
 			case "deluxe":
-				if(deluxe > 0)
-					available = true;
+				if(deluxe > requiredRoom)
+					booked = true;
 				break;
 			case "standard":
-				if(standard > 0)
-					available = true;
+				if(standard > requiredRoom)
+					booked = true;
 				break;
 		}
 		
-		return available;
+		return booked;
 	}
 	
 	public void updateRoom(int vipRoom, int deluxeRoom, int standardRoom) {

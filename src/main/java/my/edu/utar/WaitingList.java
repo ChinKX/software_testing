@@ -1,18 +1,48 @@
 package my.edu.utar;
-
 import java.util.ArrayList;
 
 public class WaitingList {
 	// instance method
 	private ArrayList<User> vip;
 	private ArrayList<User> member;
-	private ArrayList<User> normal;
+	private ArrayList<User> nonMember;
 	
 	// constructors
-	public WaitingList() {
+	public WaitingList()	{
 		vip = new ArrayList<User>();
 		member = new ArrayList<User>();
-		normal = new ArrayList<User>();
+		nonMember = new ArrayList<User>();
+	}
+	
+	// properties
+	public ArrayList<User> getVip() {
+		return vip;
+	}
+	
+	public void setVip(User[] allVips) {
+		for(User user : allVips){
+			vip.add(user);
+		}
+	}
+
+	public ArrayList<User> getMember() {
+		return member;
+	}
+	
+	public void setMember(User[] allVips) {
+		for(User user : allVips){
+			member.add(user);
+		}
+	}
+
+	public ArrayList<User> getNonMember() {
+		return nonMember;
+	}
+	
+	public void setNonMember(User[] allVips) {
+		for(User user : allVips){
+			nonMember.add(user);
+		}
 	}
 
 	// instance method
@@ -20,13 +50,16 @@ public class WaitingList {
 	{
 		switch(user.get_member_type()) {
 			case "vip":
-				vip.add(user);
+				//if(!vip.contains(user))
+					vip.add(user);
 				break;
 			case "member":
-				member.add(user);
+				//if(!member.contains(user))
+					member.add(user);
 				break;
-			case "normal":
-				normal.add(user);
+			case "nonMember":
+				//if(!nonMember.contains(user))
+					nonMember.add(user);
 				break;
 		}
 	}
@@ -44,8 +77,8 @@ public class WaitingList {
 				if(member.contains(user))
 					hasUser = true;
 				break;
-			case "normal":
-				if(normal.contains(user))
+			case "nonMember":
+				if(nonMember.contains(user))
 					hasUser = true;
 				break;
 		}
@@ -62,8 +95,8 @@ public class WaitingList {
 			case "member":
 				member.remove(user);
 				break;
-			case "normal":
-				normal.remove(user);
+			case "nonMember":
+				nonMember.remove(user);
 				break;
 		}
 	}
