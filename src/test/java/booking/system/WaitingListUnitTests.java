@@ -1,4 +1,4 @@
-package my.edu.utar;
+package booking.system;
 
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
@@ -17,80 +17,90 @@ public class WaitingListUnitTests {
 	WaitingList wl;
 	
 	User u1 = new User("abc", "vip", false);
-	User u2 = new User("Tester", "nonMember", false);
+	User u2 = new User("Tester 1", "nonMember", false);
 	User u3 = new User("cat", "member", true);
+	User u4 = new User("def", "vip", false);
+	User u5 = new User("Tester 2", "nonMember", false);
+	User u6 = new User("dog", "member", true);
+	User u7 = new User("gh", "vip", false);
+	User u8 = new User("Tester 3", "nonMember", false);
+	User u9 = new User("sheep", "member", true);
 	
 	@Before
 	public void beforeClass() {
 		wl = new WaitingList();
 	}
 	
-	private Object[] paramsForPropertyTest() {
-		return new Object[] {
-			new Object[] {
-					new User[] { u1 },
-					new User[] { u1 }
-			},
-			new Object[] {
-					new User[] { u2 },
-					new User[] { u2 }
-			},
-			new Object[] {
-					new User[] { u1, u2 },
-					new User[] { u1, u2 }
-			},
-			new Object[] {
-					new User[] { u3, u1, u2 },
-					new User[] { u3, u1, u2 }
-			},
-			new Object[] {
-					new User[] { u1, u3, u1, u2 },
-					new User[] { u1, u3, u1, u2 }
-			}
-		};
-	}
-	
 	@Test
-	@Parameters(method = "paramsForPropertyTest")
+	@Parameters(method = "paramsForGetSetVipTest")
 	public void getSetVipTest(User[] initialList, User[] expectedResult) {
-		wl.setVip(initialList);
+		wl.setAllList(initialList);
 		User[] result = new User[wl.getVip().size()];
 		result = wl.getVip().toArray(result);
 		assertArrayEquals(expectedResult, result);
 	}
 	
+	private Object[] paramsForGetSetVipTest() {
+		return new Object[] {
+			new Object[] {
+				new User[] {
+					u1, u2, u3
+				},
+				new User[] {
+					u1
+				}
+			}
+		};
+	}
+	
 	@Test
-	@Parameters(method = "paramsForPropertyTest")
+	@Parameters(method = "paramsForGetSetMemberTest")
 	public void getSetMemberTest(User[] initialList, User[] expectedResult) {
-		wl.setMember(initialList);
+		wl.setAllList(initialList);
 		User[] result = new User[wl.getMember().size()];
 		result = wl.getMember().toArray(result);
 		assertArrayEquals(expectedResult, result);
 	}
 	
+	private Object[] paramsForGetSetMemberTest() {
+		return new Object[] {
+			new Object[] {
+				new User[] {
+					u1, u2, u3
+				},
+				new User[] {
+					u3
+				}
+			}
+		};
+	}
+	
 	@Test
-	@Parameters(method = "paramsForPropertyTest")
+	@Parameters(method = "paramsForGetSetNonMemberTest")
 	public void getSetNonMemberTest(User[] initialList, User[] expectedResult) {
-		wl.setNonMember(initialList);
+		wl.setAllList(initialList);
 		User[] result = new User[wl.getNonMember().size()];
 		result = wl.getNonMember().toArray(result);
 		assertArrayEquals(expectedResult, result);
 	}
 	
+	private Object[] paramsForGetSetNonMemberTest() {
+		return new Object[] {
+			new Object[] {
+				new User[] {
+					u1, u2, u3
+				},
+				new User[] {
+					u2
+				}
+			}
+		};
+	}
+	
 	@Test
 	@Parameters(method = "paramsForAddWaitingTest")
 	public void addWaitingTest(User[] initialList, User currentUser, User[] expectedResult) {
-		switch(currentUser.get_member_type()) {
-			case "vip":
-				wl.setVip(initialList);
-				break;
-			case "member":
-				wl.setMember(initialList);
-				break;
-			case "nonMember":
-				wl.setNonMember(initialList);
-				break;
-		}
+		wl.setAllList(initialList);
 		
 		wl.addWaiting(currentUser);
 		
@@ -123,24 +133,24 @@ public class WaitingListUnitTests {
 					new User[] { u1, u1 }
 			},
 			new Object[] {
-					new User[] { u2 },
+					new User[] { u1, u2, u3,  u4,  u5,  u6, u7, u8, u9 },
 					u1,
-					new User[] { u2, u1 }
+					new User[] { u1, u4, u7, u1 }
 			},
 			new Object[] {
-					new User[] { u1 },
+					new User[] { u2, u5, u8, u3 },
 					u2,
-					new User[] { u1, u2 }
+					new User[] { u2, u5, u8, u2 }
 			},
 			new Object[] {
-					new User[] { u3, u1 },
+					new User[] { u3, u1, u9, u3 },
 					u2,
-					new User[] { u3, u1, u2 }
+					new User[] { u2 }
 			},
 			new Object[] {
-					new User[] { u1, u3, u1 },
+					new User[] { u1, u3, u1, u5, u9, u5 },
 					u2,
-					new User[] { u1, u3, u1, u2 }
+					new User[] { u5, u5, u2 }
 			}
 		};
 	}
@@ -148,17 +158,7 @@ public class WaitingListUnitTests {
 	@Test
 	@Parameters(method = "paramsForGetWaitingTest")
 	public void getWaitingTest(User[] initialList, User currentUser, boolean expectedResult) {
-		switch(currentUser.get_member_type()) {
-			case "vip":
-				wl.setVip(initialList);
-				break;
-			case "member":
-				wl.setMember(initialList);
-				break;
-			case "nonMember":
-				wl.setNonMember(initialList);
-				break;
-		}
+		wl.setAllList(initialList);
 		
 		boolean result = wl.getWaiting(currentUser);
 		
@@ -205,17 +205,7 @@ public class WaitingListUnitTests {
 	@Test
 	@Parameters(method = "paramsForRemoveWaitingTest")
 	public void removeWaitingTest(User[] initialList, User currentUser, User[] expectedResult) {
-		switch(currentUser.get_member_type()) {
-			case "vip":
-				wl.setVip(initialList);
-				break;
-			case "member":
-				wl.setMember(initialList);
-				break;
-			case "nonMember":
-				wl.setNonMember(initialList);
-				break;
-		}
+		wl.setAllList(initialList);
 		
 		wl.removeWaiting(currentUser);
 		
@@ -243,34 +233,34 @@ public class WaitingListUnitTests {
 	private Object[] paramsForRemoveWaitingTest() {
 		return new Object[] {
 			new Object[] {
-					new User[] { u1, u1 },
+					new User[] { u1, u2, u3,  u4,  u5,  u6, u7, u8, u9 },
 					u1,
-					new User[] { u1 }
+					new User[] { u4, u7 }
 			},
 			new Object[] {
-					new User[] { u2, u1 },
-					u1,
-					new User[] { u2 }
-			},
-			new Object[] {
-					new User[] { u2, u1 },
+					new User[] { u1, u2, u3,  u4,  u5,  u6, u7, u8, u9 },
 					u2,
-					new User[] { u1 }
+					new User[] { u5, u8 }
 			},
 			new Object[] {
-					new User[] { u3, u2, u1 },
-					u2,
-					new User[] { u3, u1 }
-			},
-			new Object[] {
-					new User[] { u1, u3, u1, u2 },
+					new User[] { u1, u2, u3,  u4,  u5,  u6, u7, u8, u9 },
 					u3,
-					new User[] { u1, u1, u2 }
+					new User[] { u6, u9 }
 			},
 			new Object[] {
-					new User[] { u1, u3, u1, u2 },
+					new User[] { u1, u2, u4, u3, u1 },
 					u1,
-					new User[] { u3, u1, u2 }
+					new User[] { u4, u1 }
+			},
+			new Object[] {
+					new User[] { u1, u2, u3,  u4,  u5,  u6, u7, u8, u9 },
+					u3,
+					new User[] { u6, u9 }
+			},
+			new Object[] {
+					new User[] { u1, u4, u4, u1, u1 },
+					u1,
+					new User[] { u4, u4, u1, u1 }
 			}
 		};
 	}

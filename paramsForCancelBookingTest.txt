@@ -1,0 +1,4 @@
+true,false,vip
+true,false,member
+false,true,member
+true,false,nonMember

@@ -1,4 +1,4 @@
-package my.edu.utar;
+package booking.system;
 // this class will represent the whole booking system
 public class Booking {
 	// instance variable
@@ -27,9 +27,13 @@ public class Booking {
 	public int getDeluxeRoom() {
 		return deluxeRoom;
 	}
-	
+ 
 	public int getStandardRoom() {
 		return standardRoom;
+	}
+	
+	public void set_used_excl_reward(boolean used_excl_reward) {
+		this.used_excl_reward = used_excl_reward;
 	}
 	
 	public boolean get_used_excl_reward() {
@@ -40,11 +44,15 @@ public class Booking {
 	{
 		String member_type = user.get_member_type();
 		
-		boolean bookingFail = false, using_excl_reward = false;
+		boolean bookingFail = false;
 		boolean availableVip = false, availableDeluxe = false, availableStandard = false;
+		boolean previousVip = false, previousDeluxe = false, previousStandard = false;
 		int maximum_booking;
+
+		if(numOfRoomsBooked < 1)
+			throw new IllegalArgumentException();
 		
-		for(int i = 0; i < numOfRoomsBooked && !bookingFail; i++)
+		for(int i = 0; i < numOfRoomsBooked; i++)
 		{
 			maximum_booking = 0;
 			// check room availability and get maximum booking
@@ -60,6 +68,44 @@ public class Booking {
 					maximum_booking++;
 					break;
 			}
+			
+			// restrict abnormal condition changes
+			int changes = 0;
+			if(i != 0)
+			{
+				if(previousVip != availableVip)
+				{
+					changes++;
+					if(previousVip == false)
+						changes++;
+					else if(member_type.equals("member") && !used_excl_reward)
+						changes++;
+				}
+				
+				if(previousDeluxe != availableDeluxe)
+				{
+					changes++;
+					if(previousDeluxe == false)
+						changes++;
+				}
+				
+				if(previousStandard != availableStandard)
+				{
+					changes++;
+					if(previousStandard == false)
+						changes++;
+				}
+			}
+
+			if(changes > 1)
+				throw new IllegalArgumentException();
+			else
+			{
+				previousVip = availableVip;
+				previousDeluxe = availableDeluxe;
+				previousStandard = availableStandard;
+			}
+			
 			
 			// check the booking limit
 			if(numOfRoomsBooked > maximum_booking)
@@ -80,11 +126,11 @@ public class Booking {
 				case "member":
 					if (availableDeluxe)
 						deluxeRoom++;
-					else if (user.get_excl_reward() && availableVip && using_excl_reward)
+					else if (user.get_excl_reward() && availableVip)
 					{
 						vipRoom++;
-						using_excl_reward = true;
-						
+						used_excl_reward = true;
+						user.set_excl_reward(false);
 					}
 					else if (availableStandard)
 						standardRoom++;
@@ -103,8 +149,16 @@ public class Booking {
 		// booking process
 		if(bookingFail)
 		{
+			vipRoom = 0;
+			deluxeRoom = 0;
+			standardRoom =0;
+			
 			waitingList.addWaiting(user);
-			using_excl_reward = false;
+			if(used_excl_reward)
+			{
+				user.set_excl_reward(true);
+				used_excl_reward = false;
+			}
 		}
 		else
 			allRooms.updateRoom(-vipRoom, -deluxeRoom, -standardRoom);
@@ -114,14 +168,16 @@ public class Booking {
 	{
 		if(waitingList.getWaiting(user))
 			waitingList.removeWaiting(user);
-		
-		if(used_excl_reward)
-		{
-			used_excl_reward = false;
-			user.set_excl_reward(true);
+		else
+		{		
+			if(used_excl_reward)
+			{
+				used_excl_reward = false;
+				user.set_excl_reward(true);
+			}
+			
+			allRooms.updateRoom(vipRoom, deluxeRoom, standardRoom);
 		}
-		
-		allRooms.updateRoom(vipRoom, deluxeRoom, standardRoom);
 	}
 
 	@Override

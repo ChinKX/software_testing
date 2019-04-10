@@ -1,0 +1,5 @@
+vip,3,true true true:true true true:false false false,false
+vip,3,false true true:false true true:true true false,false
+vip,2,false true true:true true true,false
+vip,2,true true true:false false false,false
+member,2,false true true:true true true,false

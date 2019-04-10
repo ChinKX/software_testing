@@ -1,4 +1,4 @@
-package my.edu.utar;
+package booking.system;
 
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
@@ -14,5 +14,5 @@ import static org.mockito.Mockito.*;
 
 @RunWith(JUnitParamsRunner.class)
 public class BookingIntegrationTests {
-
+	
 }

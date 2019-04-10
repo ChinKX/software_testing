@@ -1,4 +1,4 @@
-package my.edu.utar;
+package booking.system;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,12 +33,13 @@ public class UserIntegrationTests {
 	@Parameters(method = "paramsForBookRoomTest")
 	public void bookRoomTest(int numOfRoomsBooked, Booking newBooking, Booking[] expectedResult) {
 		Booking[] allBookings = new Booking[] { b1, b2 };
-		user.setAllBooking(new ArrayList<Booking>(Arrays.asList(allBookings)));
+		//user.setAllBooking(new ArrayList<Booking>(Arrays.asList(allBookings)));
+		user.setAllBooking(allBookings);
 		
 		WaitingList waitingList = new WaitingList();
 		Room allRooms = new Room();
 		
-		user.bookRoom(waitingList, allRooms, newBooking, numOfRoomsBooked);
+		//user.bookRoom(waitingList, allRooms, newBooking, numOfRoomsBooked);
 		
 		ArrayList<Booking> outputBookings = user.getAllBooking();
 		Booking[] result = new Booking[outputBookings.size()];
@@ -60,7 +61,8 @@ public class UserIntegrationTests {
 	@Parameters(method = "paramsForCancelRoomTest")
 	public void cancelRoomTest(Booking targetBooking, Booking[] expectedResult) {
 		Booking[] allBookings = new Booking[] { b1, b2, b3 };
-		user.setAllBooking(new ArrayList<Booking>(Arrays.asList(allBookings)));
+		//user.setAllBooking(new ArrayList<Booking>(Arrays.asList(allBookings)));
+		user.setAllBooking(allBookings);
 		
 		WaitingList waitingList = new WaitingList();
 		Room allRooms = new Room();
@@ -76,9 +78,10 @@ public class UserIntegrationTests {
 	
 	public Object[] paramsForCancelRoomTest() {
 		return new Object[] {
-				new Object[] {
-						b2, new Booking[] { b1, b3 }
-				}
+			new Object[] {
+				b2, new Booking[] { b1, b3 }
+			}
 		};
 	}
 }
+

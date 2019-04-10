@@ -1,0 +1,3 @@
+0,vip
+0,member
+0,nonMember

@@ -1,4 +1,4 @@
-package my.edu.utar;
+package booking.system;
 public class Room {
 	// instance variable
 	// number of rooms available

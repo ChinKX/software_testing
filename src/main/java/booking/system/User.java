@@ -1,4 +1,4 @@
-package my.edu.utar;
+package booking.system;
 import java.util.ArrayList;
 
 public class User {
@@ -14,10 +14,11 @@ public class User {
 		this.excl_reward = excl_reward;
 		allBooking = new ArrayList<Booking>();
 	}
-	
+
     // instance method
-	public void setAllBooking(ArrayList<Booking> allBooking) {
-		this.allBooking = allBooking;
+	public void setAllBooking(Booking[] allBooking) {
+		for(Booking b : allBooking)
+			this.allBooking.add(b);
 	}
 	
 	public ArrayList<Booking> getAllBooking() {
@@ -36,9 +37,11 @@ public class User {
 		excl_reward = change;
 	}
 	
-	public void bookRoom(WaitingList waitingList, Room allRooms, Booking newBooking, int numOfRoomsBooked)	{
+	public void bookRoom(Printer displayBooking, WaitingList waitingList, Room allRooms, Booking newBooking, int numOfRoomsBooked)	{
 		newBooking.setBooking(waitingList, allRooms, this, numOfRoomsBooked);
 		allBooking.add(newBooking);
+		
+		displayBooking.printInfo(name, member_type, newBooking);
 	}
 	
 	public void cancelBooking(WaitingList waitingList, Room allRooms, Booking targetBooking) {

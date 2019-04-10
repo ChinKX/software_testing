@@ -1,4 +1,4 @@
-package my.edu.utar;
+package booking.system;
 import java.util.ArrayList;
 
 public class WaitingList {
@@ -8,7 +8,7 @@ public class WaitingList {
 	private ArrayList<User> nonMember;
 	
 	// constructors
-	public WaitingList()	{
+	public WaitingList() {
 		vip = new ArrayList<User>();
 		member = new ArrayList<User>();
 		nonMember = new ArrayList<User>();
@@ -19,30 +19,26 @@ public class WaitingList {
 		return vip;
 	}
 	
-	public void setVip(User[] allVips) {
+	public void setAllList(User[] allVips) {
 		for(User user : allVips){
-			vip.add(user);
+			switch(user.get_member_type())
+			{
+				case "vip": vip.add(user);
+					break;
+				case "member": member.add(user);
+					break;
+				case "nonMember": nonMember.add(user);
+					break;
+			}
 		}
 	}
 
 	public ArrayList<User> getMember() {
 		return member;
-	}
-	
-	public void setMember(User[] allVips) {
-		for(User user : allVips){
-			member.add(user);
-		}
-	}
+	}	
 
 	public ArrayList<User> getNonMember() {
 		return nonMember;
-	}
-	
-	public void setNonMember(User[] allVips) {
-		for(User user : allVips){
-			nonMember.add(user);
-		}
 	}
 
 	// instance method
