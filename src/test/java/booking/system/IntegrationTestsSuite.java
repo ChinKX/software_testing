@@ -6,11 +6,10 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(value = Suite.class)
 @SuiteClasses(value = {
-		BookingUnitTests.class,
-		UserUnitTests.class,
-		WaitingListUnitTests.class		
+		BookingIntegrationTests.class,
+		UserIntegrationTests.class,
+		WaitingListIntegrationTests.class		
 })
-
-public class UnitTestsSuite {
+public class IntegrationTestsSuite {
 
 }

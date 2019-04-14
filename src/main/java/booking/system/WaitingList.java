@@ -1,4 +1,4 @@
-package booking.system;
+package Booking.system;
 import java.util.ArrayList;
 
 public class WaitingList {
@@ -19,8 +19,8 @@ public class WaitingList {
 		return vip;
 	}
 	
-	public void setAllList(User[] allVips) {
-		for(User user : allVips){
+	public void setAllList(User[] allUsers) {
+		for(User user : allUsers){
 			switch(user.get_member_type())
 			{
 				case "vip": vip.add(user);

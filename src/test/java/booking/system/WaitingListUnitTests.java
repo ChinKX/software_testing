@@ -1,4 +1,6 @@
-package booking.system;
+package Booking.test;
+
+import Booking.system.*;
 
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
@@ -6,11 +8,8 @@ import junitparams.Parameters;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InOrder;
 
 import static org.junit.Assert.*;
-import static org.mockito.Matchers.*;
-import static org.mockito.Mockito.*;
 
 @RunWith(JUnitParamsRunner.class)
 public class WaitingListUnitTests {
@@ -31,6 +30,8 @@ public class WaitingListUnitTests {
 		wl = new WaitingList();
 	}
 	
+	//to test if the system return the correct vip waiting list
+	//w1
 	@Test
 	@Parameters(method = "paramsForGetSetVipTest")
 	public void getSetVipTest(User[] initialList, User[] expectedResult) {
@@ -53,6 +54,8 @@ public class WaitingListUnitTests {
 		};
 	}
 	
+	//to test if the system return the correct member waiting list
+	//w2
 	@Test
 	@Parameters(method = "paramsForGetSetMemberTest")
 	public void getSetMemberTest(User[] initialList, User[] expectedResult) {
@@ -75,6 +78,8 @@ public class WaitingListUnitTests {
 		};
 	}
 	
+	//to test if the system return the correct non member waiting list
+	//w3
 	@Test
 	@Parameters(method = "paramsForGetSetNonMemberTest")
 	public void getSetNonMemberTest(User[] initialList, User[] expectedResult) {
@@ -97,6 +102,8 @@ public class WaitingListUnitTests {
 		};
 	}
 	
+	//to test if the system has added the user to its waiting list
+	//w4
 	@Test
 	@Parameters(method = "paramsForAddWaitingTest")
 	public void addWaitingTest(User[] initialList, User currentUser, User[] expectedResult) {
@@ -155,6 +162,8 @@ public class WaitingListUnitTests {
 		};
 	}
 
+	// to test whether user's record is stored in the particular waiting list
+	//w5
 	@Test
 	@Parameters(method = "paramsForGetWaitingTest")
 	public void getWaitingTest(User[] initialList, User currentUser, boolean expectedResult) {
@@ -202,6 +211,8 @@ public class WaitingListUnitTests {
 		};
 	}
 	
+	// to test if the system has successfully removed the user's record from the waiting list
+	//w6
 	@Test
 	@Parameters(method = "paramsForRemoveWaitingTest")
 	public void removeWaitingTest(User[] initialList, User currentUser, User[] expectedResult) {

@@ -1,4 +1,5 @@
-package booking.system;
+package Booking.system;
+
 // this class will represent the whole booking system
 public class Booking {
 	// instance variable

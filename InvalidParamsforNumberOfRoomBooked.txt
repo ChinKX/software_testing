@@ -1,3 +1,6 @@
-0,vip
-0,member
-0,nonMember
+0,vip,V1_invalid
+4,vip,V2_invalid
+0,member,M1_invalid
+3,member,M2_invalid
+0,nonMember,N1_invalid
+2,nonMember,N2_invalid

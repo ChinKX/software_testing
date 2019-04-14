@@ -1,10 +1,16 @@
-package booking.system;
+package Booking.system;
 public class Room {
 	// instance variable
 	// number of rooms available
 	private static int vip;
 	private static int deluxe;
 	private static int standard;
+	
+	public void setRoom(int iniVip, int iniDeluxe, int iniStandard) {
+		vip = iniVip;
+		deluxe = iniDeluxe;
+		standard = iniStandard;
+	}
 	
 	// instance method
 	// check the availability of the selected room type

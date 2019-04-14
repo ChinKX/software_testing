@@ -1,5 +1,25 @@
-vip,3,true true true:true true true:false false false,false
-vip,3,false true true:false true true:true true false,false
-vip,2,false true true:true true true,false
-vip,2,true true true:false false false,false
-member,2,false true true:true true true,false
+vip,3,true true true:true true true:false false false,false,V3_invalid
+vip,3,true true true:true true true:false false true,false,V4_invalid
+vip,3,true true true:false false true:false false true,false,V5_invalid
+vip,3,true true true:false false false:false false false,false,V6_invalid
+vip,3,false true true:false true true:true true false,false,v7_invalid
+vip,3,false true true:true true false:true true false,false,v8_invalid
+vip,3,true true true:false true true:true true false,false,v9_invalid
+vip,3,true true true:false false true:true true false,false,v10_invalid
+vip,2,false true true:true true true,false,v11_invalid
+vip,2,true false true:true true true,false,v12_invalid
+vip,2,true true true:false false true,false,v13_invalid
+vip,2,false false true:true true true,false,v14_invalid
+vip,2,true true true:false false false,false,v15_invalid
+vip,2,false false false:true true true,false,v16_invalid
+member,2,false true true:true true true,false,M3_invalid
+member,2,true false true:true true true,true,M4_invalid
+member,2,true true false:true true true,false,M5_invalid
+member,2,true true true:true false false,true,M6_invalid
+member,2,false true false:true true true,false,M7_invalid
+member,2,false true true:true false false,true,M8_invalid
+member,2,true true true:false true true,false,M9_invalid
+member,2,true false true:false false true,false,M10_invalid
+member,2,true true false:false true false,false,M11_invalid
+member,2,true false false:false false false,false,M12_invalid
+member,2,true true true:false true true,false,M13_invalid

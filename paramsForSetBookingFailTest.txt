@@ -1,3 +1,30 @@
-vip,1,false false false,false
-vip,2,false true false:false false false,false
-vip,3,false true true:false false true:false false false,false
+vip,1,false false false,false,v8
+vip,2,false true false:false false false,false,v20
+vip,2,false false true:false false false,false,v21
+vip,2,true false false:false false false,false,v22
+vip,2,false false false:false false false,false,v23
+vip,3,false true true:false false true:false false false,false,v40
+vip,3,true false true:false false true:false false false,false,v41
+vip,3,true true false:false true false:false false false,false,v42
+vip,3,false true false:false true false:false false false,false,v43
+vip,3,false true false:false false false:false false false,false,v44
+vip,3,false false true:false false true:false false false,false,v45
+vip,3,false false true:false false false:false false false,false,v46
+vip,3,true false false:true false false:false false false,false,v47
+vip,3,true false false:false false false:false false false,false,v48
+vip,3,false false false:false false false:false false false,false,v49
+member,1,true false false,false,M14
+member,1,false false false,false,M15
+member,1,false false false,false,M16
+member,2,true false true:true false false,false,M34
+member,2,true true false:true false false,false,M35
+member,2,false true false:false false false,false,M36
+member,2,false false true:false false false,false,M37
+member,2,true false false:true false false,false,M38
+member,2,false false false:false false false,false,M39
+member,2,false true false:false false false,false,M40
+member,2,false false true:false false false,false,M41
+member,2,true false false:true false false,false,M42
+member,2,true false false:false false false,true,M43
+member,2,false false false:false false false,false,M44
+nonMember,1,false false false,false,N2

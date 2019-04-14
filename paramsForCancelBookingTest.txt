@@ -1,4 +1,7 @@
-true,false,vip
-true,false,member
-false,true,member
-true,false,nonMember
+true,false,vip,v50
+false,false,vip,v51
+true,false,member,M45
+false,false,member,M46
+false,true,member,M47
+true,false,nonMember,N3
+false,false,nonMember,N4

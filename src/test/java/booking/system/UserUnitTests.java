@@ -1,15 +1,11 @@
-package booking.system;
+package Booking.test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
+import Booking.system.*;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InOrder;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
@@ -25,6 +21,42 @@ public class UserUnitTests {
 	Booking b2 = new Booking(ur);;
 	Booking b3 = new Booking(ur);;
 	
+	// set User's booking records
+	//u1
+	@Test
+	@Parameters(method = "paramsForGetSetAllBookingTest")
+	public void getSetAllBookingTest(Booking[] allBooking, Booking[] expectedResult) {
+		ur.setAllBooking(allBooking);
+		
+		Booking[] result = new Booking[ur.getAllBooking().size()];
+		result = ur.getAllBooking().toArray(result);
+		
+		assertArrayEquals(expectedResult, result);
+	}
+	
+	private Object[] paramsForGetSetAllBookingTest() {
+		return new Object[] {
+			new Object[] {
+				new Booking[] { b1, b2, b3 },
+				new Booking[] { b1, b2, b3 }
+			}
+		};
+	}
+	
+	// set user's exclusive reward
+	//u2
+	@Test
+	@Parameters({
+		"false, false",
+		"true, true"
+	})
+	public void getSetExclReward(boolean input, boolean expectedResult) {
+		ur.set_excl_reward(input);
+		assertEquals(expectedResult, ur.get_excl_reward());
+	}
+	
+	//test if user book room successfully or fail 
+	//u3
 	@Test
 	@Parameters(method = "paramsForBookRoomTest")
 	public void bookRoomTest(int numOfRoomsBooked, boolean[][] IsRoomAvailable, 
@@ -77,6 +109,7 @@ public class UserUnitTests {
 		for(int i = 0; i < expectedList.length; i++)
 			expectedResult[i] = expectedList[i];
 		expectedResult[expectedList.length] = newBooking;
+		
 		assertArrayEquals(expectedResult, result);
 		
 		verify(displayBooking).printInfo(anyString(), anyString(), anyObject());
@@ -94,7 +127,9 @@ public class UserUnitTests {
 			}
 		};
 	}
-
+	
+	//To test if user cancel booking and remove from its waiting list
+	//u4
 	@Test
 	@Parameters(method = "paramsForCancelRoomTest")
 	public void cancelBookingTest(boolean isWithinList, Booking[] initialList, 

@@ -1,30 +1,56 @@
-package booking.system;
+package Booking.test;
+
+import Booking.system.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
 
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InOrder;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.*;
-
+// this unit tests are using decision table techniques
 @RunWith(JUnitParamsRunner.class)
 public class BookingUnitTests {
 	
 	Scanner inputDataScanner;
 	
+	//get user
+	@Test
+	public void getOwnerTest() {
+		User ur = mock(User.class);
+		Booking aBooking = new Booking(ur);
+		
+		assertEquals(ur, aBooking.getOwner());
+	}
+	
+	@Test
+	@Parameters({
+		"true, true",
+		"false, false"
+	})
+	
+	//get user exclusive reward
+	public void getSetUsedExclReward(boolean used_excl_reward, boolean expectedResult) {
+		User ur = mock(User.class);
+		Booking aBooking = new Booking(ur);
+		
+		aBooking.set_used_excl_reward(used_excl_reward);
+		boolean result = aBooking.get_used_excl_reward();
+		
+		assertEquals(expectedResult, result);
+	}
+	
+	//User successfully books rooms
 	private Object[] paramsForSetBookingSuccessTest() {
 		String fileName = "paramsForSetBookingSuccessTest.txt";
 		
@@ -74,6 +100,7 @@ public class BookingUnitTests {
 		return params.toArray();
 	}
 	
+	//User successfully books rooms
 	@Test
 	@Parameters(method = "paramsForSetBookingSuccessTest")
 	public void setBookingSuccessTest(String member_type , int numOfRoomsBooked, 
@@ -273,9 +300,10 @@ public class BookingUnitTests {
 		return params.toArray();
 	}
 	
+	//User fails to book rooms and registered into waiting list
 	@Test
 	@Parameters(method = "paramsForCancelBookingTest")
-	public void cancelBookingTest(boolean isWithinList, boolean usedExclReward, String member_type) {
+	public void cancelBookingTest(boolean isWithinList, boolean used_reward, String member_type) {
 		WaitingList wl = mock(WaitingList.class);
 		Room allRooms = mock(Room.class);
 		User ur = mock(User.class);
@@ -285,22 +313,15 @@ public class BookingUnitTests {
 		when(wl.getWaiting(anyObject())).thenReturn(isWithinList);
 		when(ur.get_member_type()).thenReturn(member_type);
 		
+		booking.set_used_excl_reward(used_reward);
 		booking.cancelBooking(wl, allRooms, ur);
-		
-		/*
-		if (usedExclReward && member_type == "member")
-			booking.set_used_excl_reward(true);
-		*/
-		
-		//System.out.println(booking.get_used_excl_reward());
 		
 		if(isWithinList)
 			verify(wl).removeWaiting(ur);
-		else {
-			/*
-			if (usedExclReward)
+		else
+		{
+			if(used_reward)
 				verify(ur).set_excl_reward(true);
-			*/
 			verify(allRooms).updateRoom(anyInt(), anyInt(), anyInt());
 		}
 	}
@@ -333,6 +354,7 @@ public class BookingUnitTests {
 		return params.toArray();
 	}
 	
+	// when user books invalid number of rooms ,either exceed the limit he/she can book or the system receive an empty booking order
 	@Test(expected = IllegalArgumentException.class)
 	@Parameters (method = "InvalidParamsforNumberOfRoomBooked")
 	public void exceedBoookingNumberTest(int numOfRoomsBooked, String member_type) {
@@ -387,63 +409,64 @@ public class BookingUnitTests {
 		return params.toArray();
 	}
 	
+	// To test invalid booking methods and combinations so as the invalid system behavior in updating the exclusive rewards of one
 	@Test(expected = IllegalArgumentException.class)
 	@Parameters(method = "InvalidParamsforBookingTest")
 	public void invalidBookingCombinationTest(String member_type, int numOfRoomsBooked, 
 				boolean[][] IsRoomAvailable, boolean excl_reward) {
 			
-			WaitingList wl = mock(WaitingList.class);
-			Room allRooms = mock(Room.class);
-			User ur = mock(User.class);
+		WaitingList wl = mock(WaitingList.class);
+		Room allRooms = mock(Room.class);
+		User ur = mock(User.class);
+		
+		Booking newBooking = new Booking(ur);
+		
+		when(allRooms.checkRoom(eq("vip"), anyInt())).thenAnswer(new Answer() {
+			int count = 0;
 			
-			Booking newBooking = new Booking(ur);
+			public Object answer(InvocationOnMock invocation) {
+				if(count < IsRoomAvailable.length)
+					return IsRoomAvailable[count++][0];
+				
+				return IsRoomAvailable[count - 1][0];
+			}
+		});
+		when(allRooms.checkRoom(eq("member"), anyInt())).thenAnswer(new Answer() {
+			int count = 0;
 			
-			when(allRooms.checkRoom(eq("vip"), anyInt())).thenAnswer(new Answer() {
-				int count = 0;
+			public Object answer(InvocationOnMock invocation) {
+				if(count < IsRoomAvailable.length)
+					return IsRoomAvailable[count++][1];
 				
-				public Object answer(InvocationOnMock invocation) {
-					if(count < IsRoomAvailable.length)
-						return IsRoomAvailable[count++][0];
-					
-					return IsRoomAvailable[count - 1][0];
-				}
-			});
-			when(allRooms.checkRoom(eq("member"), anyInt())).thenAnswer(new Answer() {
-				int count = 0;
-				
-				public Object answer(InvocationOnMock invocation) {
-					if(count < IsRoomAvailable.length)
-						return IsRoomAvailable[count++][1];
-					
-					return IsRoomAvailable[count - 1][1];
-				}
-			});
-			when(allRooms.checkRoom(eq("nonMember"), anyInt())).thenAnswer(new Answer() {
-				int count = 0;
+				return IsRoomAvailable[count - 1][1];
+			}
+		});
+		when(allRooms.checkRoom(eq("nonMember"), anyInt())).thenAnswer(new Answer() {
+			int count = 0;
 
-				public Object answer(InvocationOnMock invocation) {
-					if(count < IsRoomAvailable.length)
-						return IsRoomAvailable[count++][2];
+			public Object answer(InvocationOnMock invocation) {
+				if(count < IsRoomAvailable.length)
+					return IsRoomAvailable[count++][2];
 
-					return IsRoomAvailable[count - 1][2];
-				}
-			});
+				return IsRoomAvailable[count - 1][2];
+			}
+		});
+		
+		when(ur.get_excl_reward()).thenAnswer(new Answer() {
+			boolean usedReward = false;
 			
-			when(ur.get_excl_reward()).thenAnswer(new Answer() {
-				boolean usedReward = false;
+			public Object answer(InvocationOnMock invocation) {
+				if(excl_reward)
+					if(!usedReward) {
+						usedReward = true;
+						return true;
+					}
 				
-				public Object answer(InvocationOnMock invocation) {
-					if(excl_reward)
-						if(!usedReward) {
-							usedReward = true;
-							return true;
-						}
-					
-					return false;
-				}
-			});
-			when(ur.get_member_type()).thenReturn(member_type);
-			
-			newBooking.setBooking(wl, allRooms, ur, numOfRoomsBooked);
+				return false;
+			}
+		});
+		when(ur.get_member_type()).thenReturn(member_type);
+		
+		newBooking.setBooking(wl, allRooms, ur, numOfRoomsBooked);
 	}
 }

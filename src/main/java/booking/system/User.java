@@ -1,4 +1,4 @@
-package booking.system;
+package Booking.system;
 import java.util.ArrayList;
 
 public class User {
@@ -25,6 +25,10 @@ public class User {
 		return allBooking;
 	}
 	
+	public void set_member_type(String member_type) {
+		this.member_type = member_type;
+	}
+	
 	public String get_member_type()	{
 		return member_type;
 	}
@@ -41,7 +45,10 @@ public class User {
 		newBooking.setBooking(waitingList, allRooms, this, numOfRoomsBooked);
 		allBooking.add(newBooking);
 		
-		displayBooking.printInfo(name, member_type, newBooking);
+		displayBooking.printInfo(name, member_type, 
+				newBooking.getVipRoom() + " VIP, " + 
+				newBooking.getDeluxeRoom() + " Deluxe, " + 
+				newBooking.getStandardRoom() + " Standard");
 	}
 	
 	public void cancelBooking(WaitingList waitingList, Room allRooms, Booking targetBooking) {
